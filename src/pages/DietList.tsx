@@ -6,8 +6,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import MainCard from '../components/MainCard';
 
 // Function to create sample data rows
 function createData(
@@ -22,37 +22,40 @@ function createData(
 
 // Sample data rows
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
+  createData('Gluten Free Diet', 159, 6.0, 24, 60),
+  createData('Keto Diet', 237, 9.0, 37, 68),
+  createData('Gain Weight Program', 262, 16.0, 24, 44),
 ];
 
 export default function AccessibleTable() {
+  const handleButtonClick = () => {
+    console.log('Button clicked');
+    // Handle button click logic here
+  };
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="caption table">
-        <caption>A basic table example with a caption</caption>
+    <>
+      <MainCard header="Diet Lists"  buttonLabel="New List"
+        buttonOnClick={handleButtonClick}>
+     <TableContainer component={Paper} sx={{ borderRadius: 5, }}  style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+      <Table sx={{ minWidth: 650 }} >
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-            <TableCell align="right">Actions</TableCell> {/* New column for actions */}
+          <TableCell sx={{ fontWeight: 'bold' }}>Diet List</TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold' }}>Calories&nbsp;(kcal)</TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold' }}>Fat&nbsp;(g)</TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold' }}>Carbs&nbsp;(g)</TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold' }}>Protein&nbsp;(g)</TableCell>
+            <TableCell align="right" sx={{ fontWeight: 'bold' }}>Actions</TableCell> {/* New column for actions */}
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {/* Add avatar to the first column */}
-                <Avatar>{row.name.charAt(0)}</Avatar>
-              </TableCell>
-              <TableCell align="right">{row.name}</TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
+              <TableCell align="left">{row.name}</TableCell>
+              <TableCell align="center">{row.calories}</TableCell>
+              <TableCell align="center">{row.fat}</TableCell>
+              <TableCell align="center">{row.carbs}</TableCell>
+              <TableCell align="center">{row.protein}</TableCell>
               <TableCell align="right">
                 {/* Add Edit and Delete buttons */}
                 <Button variant="contained" color="primary" style={{ marginRight: 8 }}>
@@ -70,5 +73,7 @@ export default function AccessibleTable() {
         </TableBody>
       </Table>
     </TableContainer>
+    </MainCard>
+    </>
   );
 }

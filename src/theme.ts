@@ -1,6 +1,9 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme,PaletteOptions } from '@mui/material/styles';
 
-// Define your custom theme
+interface CustomPaletteOptions extends PaletteOptions {
+  customColor1?: string;
+  customColor2?: string;
+}
 const theme = createTheme({
   typography: {
     fontFamily: [
@@ -53,6 +56,7 @@ const theme = createTheme({
   },
   palette: {
     primary: {
+      light:'#b800d8',
       main: '#800080',
     },
     secondary:{
@@ -70,9 +74,13 @@ const theme = createTheme({
       light:'#fae7c5',
       main: '#ff9800', // Orange color for warning
     },
-    // Add other palette colors as needed
+    error: {
+      main: '#b800d8', 
+    },
+    customColor1: '#b800d8', 
+  } as CustomPaletteOptions,
   },
   
-});
+);
 
 export default theme;
