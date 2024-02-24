@@ -47,7 +47,7 @@ export default function AccessibleTable() {
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
                 {/* Add avatar to the first column */}
-                <Avatar>{row.name.charAt(0)}</Avatar>
+                <Avatar sx={{ borderRadius:'5px' }}>{row.name.charAt(0)}</Avatar>
               </TableCell>
               <TableCell align="right">{row.name}</TableCell>
               <TableCell align="right">{row.calories}</TableCell>

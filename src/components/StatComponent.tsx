@@ -40,7 +40,7 @@ const StatBox: React.FC<StatBoxProps> = ({ icon, amount, label, change, bgColor 
         {amount}
       </Typography>
       <Typography variant="body2">{label}</Typography>
-      <Typography variant="body2" sx={{ color: change.startsWith('+') ? 'success.main' : 'error.main' }}>
+      <Typography variant="body2" sx={{ background:'white', padding:'2px 5px', borderRadius:1, mt:1, color: change.startsWith('+') ? 'success.main' : 'error.main' }}>
         {change}
       </Typography>
     </Box>

@@ -32,12 +32,12 @@ const theme = createTheme({
       fontWeight: 500,
     },
     subtitle1: {
-      fontSize: '1rem',
+      fontSize: '0.875rem',
       fontWeight: 400,
-      color: '#eee',
+      color: '#ccc',
     },
     subtitle2: {
-      fontSize: '0.875rem',
+      fontSize: '0.75rem',
       fontWeight: 400,
       color: '#ddd',
     },
@@ -49,7 +49,7 @@ const theme = createTheme({
       fontSize: '0.875rem',
       fontWeight: 400,
     },
-    // Add other typography variants as needed
+    
   },
   palette: {
     primary: {
@@ -58,14 +58,21 @@ const theme = createTheme({
     secondary:{
         main:'#e5cee6'
     },
+    info: {
+      light:'#b0cdeb',
+      main: '#2e96ff', 
+    },
     success: {
-      main: '#4caf50', // Green color for success
+      light:'#cae0c8',
+      main: '#53af4c', // Green color for success
     },
     warning: {
+      light:'#fae7c5',
       main: '#ff9800', // Orange color for warning
     },
     // Add other palette colors as needed
   },
+  
 });
 
 export default theme;

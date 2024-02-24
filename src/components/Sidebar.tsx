@@ -1,13 +1,14 @@
 import * as React from 'react';
+import ROUTES from '../routes/routes';
+import AppRoutes from '../routes/AppRoutes';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-// import CssBaseline from '@mui/material/CssBaseline';
+import { BrowserRouter as Router} from 'react-router-dom';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
@@ -19,15 +20,10 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { Search } from '@mui/icons-material';
 import InputBase from '@mui/material/InputBase';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import HomePage from '../pages/HomePage';
-import AboutPage from '../pages/AboutPage';
-import ConsumersList from '../pages/ConsumersList';
-import DietList from '../pages/DietList';
-import AppointmentsPage from '../pages/AppointmentsPage';
 import { GridMenuIcon } from '@mui/x-data-grid';
 import Header from './Header';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { Button } from '@mui/material';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
@@ -81,7 +77,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawerLeft() {
+export default function Sidebar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true); // Drawer is open by default
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md')); // Adjust breakpoint as needed
@@ -106,7 +102,7 @@ export default function PersistentDrawerLeft() {
               aria-label="open drawer"
               onClick={handleDrawerOpen}
               edge="start"
-              sx={{ mr: 2, ...(open && { display: 'none' }), backgroundColor:'purple', borderRadius:'5px' }}
+              sx={{ mr: 2, ...(open && { display: 'none' }), backgroundColor:'purple', borderRadius:'5px',padding:'0.3rem 0.7rem' }}
             >
               <GridMenuIcon/>
             </IconButton>
@@ -149,7 +145,7 @@ export default function PersistentDrawerLeft() {
               borderRight: 'none',
               boxShadow: '0px 3px 3px -2px rgb(0 0 0 / 15%), 0px 3px 4px 0px rgb(0 0 0 / 0%), 0px 1px 8px 0px rgba(0, 0, 0, 0.12)',
               borderTopRightRadius: '26px', 
-              borderBottomRightRadius: '26px'
+              borderBottomRightRadius: '26px',
             },
           }}
           variant="persistent"
@@ -161,43 +157,46 @@ export default function PersistentDrawerLeft() {
               {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>
           </DrawerHeader>
-          <Divider />
+         
+          <img src="logo-main.png" alt="Logo" style={{ width: '85%',  padding: '8px',margin: '0px auto 10px', borderRadius:'15px' }} />
           <List>
-            <ListItemButton component="a" href="/" key="Home">
-              <ListItemIcon><InboxIcon /></ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItemButton>
-            <ListItemButton component="a" href="/about" key="About">
-              <ListItemIcon><MailIcon /></ListItemIcon>
-              <ListItemText primary="About" />
-            </ListItemButton>
-            <ListItemButton component="a" href="/consumerslist" key="Consultants">
-              <ListItemIcon><MailIcon /></ListItemIcon>
-              <ListItemText primary="Consultants" />
-            </ListItemButton>
-            <ListItemButton component="a" href="/dietlist" key="DietList">
-              <ListItemIcon><MailIcon /></ListItemIcon>
-              <ListItemText primary="DietList" />
-            </ListItemButton>
-            <ListItemButton component="a" href="/appointments" key="Appointments">
-              <ListItemIcon><MailIcon /></ListItemIcon>
-              <ListItemText primary="Appointments" />
-            </ListItemButton>
+       
+<ListItemButton component="a" href={ROUTES.HOME} key="Home">
+  <ListItemIcon><InboxIcon /></ListItemIcon>
+  <ListItemText primary="Home" />
+</ListItemButton>
+<ListItemButton component="a" href={ROUTES.ABOUT} key="About">
+  <ListItemIcon><MailIcon /></ListItemIcon>
+  <ListItemText primary="About" />
+</ListItemButton>
+<ListItemButton component="a" href={ROUTES.CONSUMERS_LIST} key="Consultants">
+  <ListItemIcon><MailIcon /></ListItemIcon>
+  <ListItemText primary="Consultants" />
+</ListItemButton>
+<ListItemButton component="a" href={ROUTES.DIET_LIST} key="DietList">
+  <ListItemIcon><MailIcon /></ListItemIcon>
+  <ListItemText primary="DietList" />
+</ListItemButton>
+<ListItemButton component="a" href={ROUTES.APPOINTMENTS} key="Appointments">
+  <ListItemIcon><MailIcon /></ListItemIcon>
+  <ListItemText primary="Appointments" />
+</ListItemButton>
+
           </List>
+          <div style={{ position: 'absolute', bottom: -185, left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}>
+    <Button variant="contained" color="primary">
+      Upgrade
+    </Button>
+  </div>
+  <img src="upgrade.svg" alt="upgrade" style={{ width: '50%', height: 'auto',  margin: '180px auto 20px', padding:'0 30px 60px',  background: theme.palette.secondary.main, borderRadius:8}} />
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/consumerslist" element={<ConsumersList />} />
-            <Route path="/dietlist" element={<DietList />} />
-            <Route path="/appointments" element={<AppointmentsPage />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
+          <AppRoutes /> 
         </Main>
       </Box>
     </Router>
+  
   );
 }
 
