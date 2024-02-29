@@ -4,7 +4,6 @@ import AppRoutes from '../routes/AppRoutes';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import { BrowserRouter as Router} from 'react-router-dom';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
@@ -24,6 +23,7 @@ import { GridMenuIcon } from '@mui/x-data-grid';
 import Header from './Header';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
@@ -81,7 +81,7 @@ export default function Sidebar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true); // Drawer is open by default
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md')); // Adjust breakpoint as needed
-
+  const navigate = useNavigate(); 
   // Define the width of the search input based on screen size
   const searchInputWidth = isLargeScreen ? '300px' : '200px';
   const handleDrawerOpen = () => {
@@ -91,9 +91,11 @@ export default function Sidebar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  const handleNavigation = (route:any) => {
+    navigate(route); // Use navigate to navigate to the specified route
+  };
   return (
-    <Router>
+    <>
       <Box sx={{ display: 'flex' }}>
         <AppBar position="fixed" open={open}>
           <Toolbar>
@@ -159,30 +161,28 @@ export default function Sidebar() {
           </DrawerHeader>
          
           <img src="logo-main.png" alt="Logo" style={{ width: '85%',  padding: '8px',margin: '0px auto 10px', borderRadius:'15px' }} />
-          <List>
-       
-<ListItemButton component="a" href={ROUTES.HOME} key="Home">
-  <ListItemIcon><InboxIcon /></ListItemIcon>
-  <ListItemText primary="Home" />
-</ListItemButton>
-<ListItemButton component="a" href={ROUTES.ABOUT} key="About">
-  <ListItemIcon><MailIcon /></ListItemIcon>
-  <ListItemText primary="About" />
-</ListItemButton>
-<ListItemButton component="a" href={ROUTES.CONSUMERS_LIST} key="Consultants">
-  <ListItemIcon><MailIcon /></ListItemIcon>
-  <ListItemText primary="Consultants" />
-</ListItemButton>
-<ListItemButton component="a" href={ROUTES.DIET_LIST} key="DietList">
-  <ListItemIcon><MailIcon /></ListItemIcon>
-  <ListItemText primary="DietList" />
-</ListItemButton>
-<ListItemButton component="a" href={ROUTES.APPOINTMENTS} key="Appointments">
-  <ListItemIcon><MailIcon /></ListItemIcon>
-  <ListItemText primary="Appointments" />
-</ListItemButton>
-
-          </List>
+        <List>
+          <ListItemButton onClick={() => handleNavigation(ROUTES.HOME)} key="Home">
+            <ListItemIcon><InboxIcon /></ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItemButton>
+          <ListItemButton onClick={() => handleNavigation(ROUTES.ABOUT)} key="About">
+            <ListItemIcon><MailIcon /></ListItemIcon>
+            <ListItemText primary="About" />
+          </ListItemButton>
+          <ListItemButton onClick={() => handleNavigation(ROUTES.CONSUMERS_LIST)} key="Consultants">
+            <ListItemIcon><MailIcon /></ListItemIcon>
+            <ListItemText primary="Consultants" />
+          </ListItemButton>
+          <ListItemButton onClick={() => handleNavigation(ROUTES.DIET_LIST)} key="DietList">
+            <ListItemIcon><MailIcon /></ListItemIcon>
+            <ListItemText primary="DietList" />
+          </ListItemButton>
+          <ListItemButton onClick={() => handleNavigation(ROUTES.APPOINTMENTS)} key="Appointments">
+            <ListItemIcon><MailIcon /></ListItemIcon>
+            <ListItemText primary="Appointments" />
+          </ListItemButton>
+        </List>
           <div style={{ position: 'absolute', bottom: -185, left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}>
     <Button variant="contained" color="primary">
       Upgrade
@@ -195,7 +195,7 @@ export default function Sidebar() {
           <AppRoutes /> 
         </Main>
       </Box>
-    </Router>
+    </>
   
   );
 }

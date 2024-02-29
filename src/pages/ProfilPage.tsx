@@ -34,7 +34,7 @@ const ProfilePage: React.FC = () => {
         <Grid item xs={4}>
           <Typography fontWeight="bold">Email:</Typography>
           <Typography fontWeight="bold">Age:</Typography>
-          <Typography fontWeight="bold">Sex:</Typography>
+          <Typography fontWeight="bold">Gender:</Typography>
         </Grid>
         <Grid item xs={8}>
           <Typography>john.doe@example.com</Typography>
