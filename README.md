@@ -24,9 +24,6 @@ This is a web application built using Material UI and GraphQL technologies, desi
 - **Material UI**: React component library implementing Google's Material Design.
 - **GraphQL**: Query language for APIs, providing a more efficient alternative to REST.
 - **Apollo Client**: GraphQL client for fetching and caching data from GraphQL APIs.
-- **Node.js**: JavaScript runtime environment for server-side development.
-- **Express.js**: Web application framework for Node.js, providing features for building APIs and web servers.
-- **MongoDB**: NoSQL database for storing and managing application data.
 
 ## Installation and Usage:
 
