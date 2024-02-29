@@ -3,6 +3,7 @@ import ROUTES from '../routes/routes';
 import AppRoutes from '../routes/AppRoutes';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import { useState, useEffect } from 'react';
 import Drawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -24,6 +25,7 @@ import Header from './Header';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
@@ -35,38 +37,34 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  marginLeft: `-${drawerWidth}px`,
+  marginLeft: `-${drawerWidth}px`, // Default margin
+  overflowY: 'auto', // Enable vertical scrolling
+
+  // Set a fixed height for the Main component
+  height: 'calc(100vh - 0)', // Adjust as needed, subtracting app bar height
   ...(open && {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
+    marginLeft: 0, // Adjust margin when drawer is open
   }),
+  [theme.breakpoints.down('xs')]: {
+    marginLeft: 0, // Adjust margin for screens smaller than 480px
+    padding: theme.spacing(2), // Adjust padding for screens smaller than 480px
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    marginLeft: 0, // Adjust margin for small screens and mobile devices
+    padding: theme.spacing(5), // Adjust padding for small screens and mobile devices
+  },
+  [theme.breakpoints.down('md')]: {
+    marginLeft: 0, // Adjust margin for small screens and mobile devices
+    padding: theme.spacing(2), // Adjust padding for small screens and mobile devices
+  },
 }));
+
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
+  scrolled: boolean;
 }
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-  backgroundColor: 'transparent', // Set the background to transparent
-  boxShadow: 'none', // Remove the boxShadow
-}));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -78,6 +76,42 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function Sidebar() {
+
+  const AppBar = styled(MuiAppBar, {
+    shouldForwardProp: (prop) => prop !== 'open',
+  })<AppBarProps>(({ theme, open }) => ({
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    ...(open && {
+      width: `calc(100% - ${drawerWidth}px - 10px)`,
+      marginLeft: `${drawerWidth}px`,
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    }),
+    borderRadius:'15px',
+    backgroundColor: scrolled ? '#fff' : 'transparent',
+    boxShadow: scrolled ? '0px 4px 6px rgba(0, 0, 0, 0.1)' : 'none',
+  }));
+  
+  const [scrolled, setScrolled] = useState(false);
+
+useEffect(() => {
+  const handleScroll = () => {
+    const isScrolled = window.scrollY > 0;
+    setScrolled(isScrolled);
+  };
+
+  window.addEventListener('scroll', handleScroll);
+
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
+}, []);
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(true); // Drawer is open by default
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md')); // Adjust breakpoint as needed
@@ -97,42 +131,42 @@ export default function Sidebar() {
   return (
     <>
       <Box sx={{ display: 'flex' }}>
-        <AppBar position="fixed" open={open}>
+        <AppBar position="fixed" open={open} scrolled={scrolled}>
           <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              sx={{ mr: 2, ...(open && { display: 'none' }), backgroundColor:'purple', borderRadius:'5px',padding:'0.3rem 0.7rem' }}
-            >
-              <GridMenuIcon/>
-            </IconButton>
+            
+            {!open && ( // Show open drawer button only if it's closed in mobile view
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                sx={{ mr: 2,  backgroundColor: 'purple', borderRadius: '5px', padding: '0.3rem 0.7rem',display: 'flex', alignItems: 'center' }}
+              >
+                <GridMenuIcon />
+              </IconButton>
+            )}
             <HeaderContainer>
-            <HourglassTopIcon sx={{ fontSize: 12, color: 'purple' }} />
+              <HourglassTopIcon sx={{ fontSize: 12, color: 'purple' }} />
               <Typography variant="body2" noWrap component="div">
                 25 days remain
               </Typography>
             </HeaderContainer>
             <AppBarContent>
-            <SearchContainer>
-            <SearchIconWrapper>
-              <Search sx={{ color: 'purple' }} />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search..."
-              sx={{
-                width: searchInputWidth,
-                transition: theme.transitions.create('width', {
-                  easing: theme.transitions.easing.sharp,
-                  duration: theme.transitions.duration.enteringScreen,
-                }),
-                [theme.breakpoints.down('sm')]: {
-                  width: '100%', // For small screens, occupy full width
-                },
-              }}
-              />
-    </SearchContainer>
+              <SearchContainer>
+                <SearchIconWrapper>
+                  <Search sx={{ color: 'purple' }} />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search..."
+                  sx={{
+                    width: '100%', // Always occupy full width in mobile view
+                    transition: theme.transitions.create('width', {
+                      easing: theme.transitions.easing.sharp,
+                      duration: theme.transitions.duration.enteringScreen,
+                    }),
+                  }}
+                />
+              </SearchContainer>
               <Header />
             </AppBarContent>
           </Toolbar>
@@ -146,57 +180,47 @@ export default function Sidebar() {
               boxSizing: 'border-box',
               borderRight: 'none',
               boxShadow: '0px 3px 3px -2px rgb(0 0 0 / 15%), 0px 3px 4px 0px rgb(0 0 0 / 0%), 0px 1px 8px 0px rgba(0, 0, 0, 0.12)',
-              borderTopRightRadius: '26px', 
+              borderTopRightRadius: '26px',
               borderBottomRightRadius: '26px',
             },
           }}
-          variant="persistent"
+          variant={isLargeScreen ? "persistent" : "temporary"} // Change variant based on screen size
           anchor="left"
           open={open}
+          onClose={handleDrawerClose} // Close drawer on mobile view when clicked outside
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
         >
           <DrawerHeader>
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>
           </DrawerHeader>
-         
-          <img src="logo-main.png" alt="Logo" style={{ width: '85%',  padding: '8px',margin: '0px auto 10px', borderRadius:'15px' }} />
-        <List>
-          <ListItemButton onClick={() => handleNavigation(ROUTES.HOME)} key="Home">
-            <ListItemIcon><InboxIcon /></ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItemButton>
-          <ListItemButton onClick={() => handleNavigation(ROUTES.ABOUT)} key="About">
-            <ListItemIcon><MailIcon /></ListItemIcon>
-            <ListItemText primary="About" />
-          </ListItemButton>
-          <ListItemButton onClick={() => handleNavigation(ROUTES.CONSUMERS_LIST)} key="Consultants">
-            <ListItemIcon><MailIcon /></ListItemIcon>
-            <ListItemText primary="Consultants" />
-          </ListItemButton>
-          <ListItemButton onClick={() => handleNavigation(ROUTES.DIET_LIST)} key="DietList">
-            <ListItemIcon><MailIcon /></ListItemIcon>
-            <ListItemText primary="DietList" />
-          </ListItemButton>
-          <ListItemButton onClick={() => handleNavigation(ROUTES.APPOINTMENTS)} key="Appointments">
-            <ListItemIcon><MailIcon /></ListItemIcon>
-            <ListItemText primary="Appointments" />
-          </ListItemButton>
-        </List>
+
+          <img src="logo-main.png" alt="Logo" style={{ width: '85%', padding: '8px', margin: '0px auto 10px', borderRadius: '15px' }} />
+          <List>
+            {ROUTES.map((route:any) => (
+              <ListItemButton onClick={() => handleNavigation(route.path)} key={route.name}>
+                <ListItemIcon>{route.icon}</ListItemIcon>
+                <ListItemText primary={route.name} />
+              </ListItemButton>
+            ))}
+          </List>
           <div style={{ position: 'absolute', bottom: -185, left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}>
-    <Button variant="contained" color="primary">
-      Upgrade
-    </Button>
-  </div>
-  <img src="upgrade.svg" alt="upgrade" style={{ width: '50%', height: 'auto',  margin: '180px auto 20px', padding:'0 30px 60px',  background: theme.palette.secondary.main, borderRadius:8}} />
+            <Button variant="contained" color="primary">
+              Upgrade
+            </Button>
+          </div>
+          <img src="upgrade.svg" alt="upgrade" style={{ width: '50%', height: 'auto', margin: '180px auto 20px', padding: '0 30px 60px', background: theme.palette.secondary.main, borderRadius: 8 }} />
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
-          <AppRoutes /> 
+          <AppRoutes />
         </Main>
       </Box>
     </>
-  
+
   );
 }
 
