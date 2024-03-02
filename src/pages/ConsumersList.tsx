@@ -115,7 +115,7 @@ export default function AccessibleTable() {
   return (
     <>
       <MainCard header="Consultants" buttonLabel="Add New" buttonOnClick={handleOpenModal}>
-        <TableContainer component={Paper} sx={{ borderRadius: 5 }} style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        <TableContainer component={Paper} sx={{ borderRadius: 5 }} style={{ whiteSpace: 'nowrap',  textOverflow: 'ellipsis' }}>
           <Table>
             <TableHead>
               <TableRow>
@@ -164,7 +164,8 @@ export default function AccessibleTable() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
   >
-  <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 4 }}>
+  <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80%', 
+            maxWidth: 400,  bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 4 }}>
   <Typography variant="h4" id="modal-modal-title" sx={{ mb: 2 }}>Add New Consultan</Typography>
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -212,7 +213,8 @@ export default function AccessibleTable() {
         aria-labelledby="delete-modal-title"
         aria-describedby="delete-modal-description"
       >
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 4 }}>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',  width: '80%', 
+            maxWidth: 400,  bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 4 }}>
         <Typography variant="h4" id="delete-modal-title" sx={{ mb: 2 }}>Delete Confirmation</Typography>
           <Typography variant="body1" id="delete-modal-description" sx={{ mb: 4 }}>Are you sure you want to delete this item?</Typography>
           <Grid container justifyContent="flex-end" spacing={2}>

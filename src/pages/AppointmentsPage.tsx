@@ -25,7 +25,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import MenuItem from '@mui/material/MenuItem';
 import Autocomplete from '@mui/material/Autocomplete';
 // Function to create sample data rows
 function createData(
@@ -113,7 +112,7 @@ export default function AccessibleTable() {
     <MainCard header="Appointments"  buttonLabel="Create New"
         buttonOnClick={handleButtonClick}>
     
-        <TableContainer component={Paper} sx={{ borderRadius: 5, }}  style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        <TableContainer component={Paper} sx={{ borderRadius: 5, }}  style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
           <Table >
             <TableHead>
               <TableRow>
@@ -161,7 +160,8 @@ export default function AccessibleTable() {
   aria-labelledby="modal-modal-title"
   aria-describedby="modal-modal-description"
 >
-  <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 4 }}>
+  <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',  width: '80%', 
+            maxWidth: 400,  bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 4 }}>
     <Typography variant="h4" id="modal-modal-title" sx={{ mb: 2 }}>New Appointment</Typography>
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -225,7 +225,8 @@ export default function AccessibleTable() {
         aria-labelledby="delete-modal-title"
         aria-describedby="delete-modal-description"
       >
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 4 }}>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',  width: '80%', 
+            maxWidth: 400,  bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 4 }}>
         <Typography variant="h4" id="delete-modal-title" sx={{ mb: 2 }}>Delete Confirmation</Typography>
 <Typography variant="body1" id="delete-modal-description" sx={{ mb: 4 }}>Are you sure you want to delete this item?</Typography>
 

@@ -52,7 +52,7 @@ const LocationChips = ({ location }: { location: string }) => {
 
 export default function AccessibleTable() {
   return (
-    <TableContainer component={Paper} sx={{ borderRadius: 5}}  style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+    <TableContainer component={Paper} sx={{ borderRadius: 5}}  style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
     <Table >
       <TableHead>
         <TableRow>

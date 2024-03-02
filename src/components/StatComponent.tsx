@@ -52,8 +52,9 @@ const StatsRow = () => {
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'flex-end', // Aligns children to the bottom
-        flexDirection: { xs: 'column', sm: 'row' },
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
         gap: 2,
         p: 1,
       }}

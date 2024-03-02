@@ -73,7 +73,7 @@ export default function AccessibleTable() {
         <TableContainer
           component={Paper}
           sx={{ borderRadius: 5 }}
-          style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+          style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
         >
           <Table sx={{ minWidth: 650 }}>
             <TableHead>
@@ -119,23 +119,34 @@ export default function AccessibleTable() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-      <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 4 }}>
+      <Box 
+      sx={{ 
+        position: 'absolute', 
+        top: '50%', 
+        left: '50%', 
+        transform: 'translate(-50%, -50%)', 
+        width: '80%', // Adjusted to be 90% of the viewport width
+        maxWidth: 400, // Maximum width to maintain readability
+        bgcolor: 'background.paper', 
+        boxShadow: 24, 
+        p: 4, 
+        borderRadius: 4 }}>
       <Typography variant="h4" id="modal-modal-title" sx={{ mb: 2 }}>New List</Typography>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField fullWidth label="Name" />
             </Grid>
             <Grid item xs={6}>
-              <TextField label="Calories" />
+              <TextField fullWidth label="Calories" />
             </Grid>
             <Grid item xs={6}>
-              <TextField label="Fat" />
+              <TextField fullWidth label="Fat" />
             </Grid>
             <Grid item xs={6}>
-              <TextField label="Carbs" />
+              <TextField fullWidth label="Carbs" />
             </Grid>
             <Grid item xs={6}>
-              <TextField label="Protein" />
+              <TextField fullWidth label="Protein" />
             </Grid>
             <Grid item xs={12}>
         <Grid container justifyContent="flex-end" spacing={2}>
@@ -157,7 +168,18 @@ export default function AccessibleTable() {
         aria-labelledby="delete-modal-title"
         aria-describedby="delete-modal-description"
       >
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 4 }}>
+        <Box 
+          sx={{ 
+            position: 'absolute', 
+            top: '50%', 
+            left: '50%', 
+            transform: 'translate(-50%, -50%)', 
+            width: '80%', 
+            maxWidth: 400, 
+            bgcolor: 'background.paper', 
+            boxShadow: 24, 
+            p: 4, 
+            borderRadius: 4 }}>
         <Typography variant="h4" id="delete-modal-title" sx={{ mb: 2 }}>Delete Confirmation</Typography>
 <Typography variant="body1" id="delete-modal-description" sx={{ mb: 4 }}>Are you sure you want to delete this item?</Typography>
 

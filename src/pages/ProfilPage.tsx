@@ -12,13 +12,13 @@ const ProfilePage: React.FC = () => {
     buttonOnClick={handleButtonClick}>
      <Box sx={{ padding: '0 20px' }}>
   <Grid container spacing={2}>
-    <Grid item xs={12} md={6}>
-      {/* Left side: Profile image */}
-      <img src="team-2.png" alt="Profile" style={{ width: '50%', borderRadius:'5px' }} />
-    </Grid>
-    <Grid item xs={12} md={6}>
+  <Grid item xs={12} md={6} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+  {/* Left side: Profile image */}
+  <img src="team-2.png" alt="Profile" style={{ width: '50%', borderRadius: '5px' }} />
+</Grid>
+    <Grid item xs={12} md={6} >
       {/* Right side: Profile details */}
-      <Grid container spacing={2}>
+      <Grid container spacing={2} >
         {/* First row: Name, Surname, Contact */}
         <Grid item xs={4}>
           <Typography fontWeight="bold">Name:</Typography>

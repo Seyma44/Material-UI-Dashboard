@@ -122,18 +122,26 @@ useEffect(() => {
     setOpen(true);
   };
 
+  useEffect(() => {
+    setOpen(isLargeScreen); // Set drawer state based on screen size
+  }, [isLargeScreen]); // Re-run effect when screen size changes
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const handleNavigation = (route:any) => {
-    navigate(route); // Use navigate to navigate to the specified route
+  const handleNavigation = (route: any) => {
+    navigate(route); // Navigate to the specified route
+    if (!isLargeScreen) {
+      // Close the drawer if it's not a large screen (mobile view)
+      handleDrawerClose();
+    }
   };
+  
   return (
     <>
       <Box sx={{ display: 'flex' }}>
         <AppBar position="fixed" open={open} scrolled={scrolled}>
           <Toolbar>
-            
             {!open && ( // Show open drawer button only if it's closed in mobile view
               <IconButton
                 color="inherit"
@@ -151,7 +159,7 @@ useEffect(() => {
                 25 days remain
               </Typography>
             </HeaderContainer>
-            <AppBarContent>
+            <AppBarContent>   
               <SearchContainer>
                 <SearchIconWrapper>
                   <Search sx={{ color: 'purple' }} />
