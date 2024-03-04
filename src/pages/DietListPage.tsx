@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
 import MainCard from '../components/MainCard';
-import Modal from '@mui/material/Modal';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  Modal,
+  TextField,
+  Grid,
+  Box,
+  Typography,
+  TablePagination
+} from '@mui/material';
+
 // Function to create sample data rows
 function createData(
   name: string,
@@ -29,9 +33,13 @@ const rows = [
   createData('Gluten Free Diet', 159, 6.0, 24, 60),
   createData('Keto Diet', 237, 9.0, 37, 68),
   createData('Gain Weight Program', 262, 16.0, 24, 44),
+  createData('Gain Weight Program', 262, 16.0, 24, 44),
+  createData('Gain Weight Program', 262, 16.0, 24, 44),
+  createData('Gain Weight Program', 262, 16.0, 24, 44),
+  createData('Gain Weight Program', 262, 16.0, 24, 44),
 ];
 
-export default function AccessibleTable() {
+export default function DietListPage() {
   const [open, setOpen] = useState(false);
 
   const handleButtonClick = () => {
@@ -61,12 +69,23 @@ export default function AccessibleTable() {
     // Handle delete confirmation logic here
     handleCloseDeleteModal();
   };
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
 
   return (
     <>
       <MainCard
-        header="Diet Lists"
+        header="Diet List"
         buttonLabel="New List"
         buttonOnClick={handleButtonClick}
       >
@@ -87,29 +106,41 @@ export default function AccessibleTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.name}>
-                  <TableCell align="left">{row.name}</TableCell>
-                  <TableCell align="center">{row.calories}</TableCell>
-                  <TableCell align="center">{row.fat}</TableCell>
-                  <TableCell align="center">{row.carbs}</TableCell>
-                  <TableCell align="center">{row.protein}</TableCell>
-                  <TableCell align="right">
-                    <Button variant="contained" color="primary" style={{ marginRight: 8 }}>
-                      Details
-                    </Button>
-                    <Button variant="outlined" color="primary" style={{ marginRight: 8 }}>
-                      Edit
-                    </Button>
-                    <Button variant="outlined" color="secondary" onClick={handleDeleteButtonClick}>
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+            {(rowsPerPage > 0
+              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : rows
+            ).map((row) => (
+              <TableRow key={row.name}>
+                <TableCell align="left">{row.name}</TableCell>
+                <TableCell align="center">{row.calories}</TableCell>
+                <TableCell align="center">{row.fat}</TableCell>
+                <TableCell align="center">{row.carbs}</TableCell>
+                <TableCell align="center">{row.protein}</TableCell>
+                <TableCell align="right">
+                  <Button variant="contained" color="primary" style={{ marginRight: 8 }}>
+                    Details
+                  </Button>
+                  <Button variant="outlined" color="primary" style={{ marginRight: 8 }}>
+                    Edit
+                  </Button>
+                  <Button variant="outlined" color="secondary" onClick={handleDeleteButtonClick}>
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
       </MainCard>
 
       {/* Modal for new list */}
@@ -151,7 +182,7 @@ export default function AccessibleTable() {
             <Grid item xs={12}>
         <Grid container justifyContent="flex-end" spacing={2}>
           <Grid item>
-            <Button variant="contained" color="primary" onClick={handleFormSubmit}>Submit</Button>
+            <Button variant="contained" color="primary" onClick={handleFormSubmit}>Add</Button>
           </Grid>
           <Grid item>
             <Button variant="outlined" onClick={handleCloseModal}>Cancel</Button>

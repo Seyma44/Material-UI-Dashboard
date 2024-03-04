@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
+import { ApexOptions } from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
+import  theme  from '../theme';
 
-const CustomersBarChart = () => {
-  const [options, setOptions] = useState({
+const AppointmentsChart = () => {
+  
+  const [options, setOptions] = useState<ApexOptions>({
     chart: {
-      type: 'polarArea',
+      type: 'polarArea', 
       height: 300,
     },
-    labels: ['Bekleyen Randevu', 'Onaylanmış Randevu','İptal Edilen Randevu'],
+    labels: ['Upcoming Appointments', 'Completed Appointments', 'Canceled Appointments'],
     fill: {
       opacity: 1,
     },
@@ -31,17 +34,16 @@ const CustomersBarChart = () => {
         },
       },
     },
-    
-    colors: ['#ff9800','#2e96ff', '#b800d8'],
+    colors: [theme.palette.warning.main, theme.palette.info.main, theme.palette.error.main],
   });
+  
 
   useEffect(() => {
-    // You can update the options dynamically here if needed
     setOptions((prevOptions) => ({
       ...prevOptions,
      
     }));
-  }, [/* Add dependencies for dynamic updates here */]);
+  }, []);
 
   const [series, setSeries] = useState([52, 47, 42]);
 
@@ -57,4 +59,4 @@ const CustomersBarChart = () => {
   );
 };
 
-export default CustomersBarChart;
+export default AppointmentsChart;

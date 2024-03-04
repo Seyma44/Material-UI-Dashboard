@@ -3,8 +3,7 @@ import { forwardRef, ReactNode } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Card, CardContent, CardHeader, Divider, Typography } from '@mui/material';
-
+import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 
 // header style
 const headerSX: Record<string, any> = {
@@ -80,7 +79,6 @@ const DashboardCard = forwardRef<HTMLDivElement, DashboardCardProps>(
         {/* card content */}
         {content && <CardContent sx={contentSX}>{children}</CardContent>}
         {!content && children}
-
       </Card>
     );
   }

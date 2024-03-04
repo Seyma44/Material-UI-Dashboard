@@ -1,31 +1,35 @@
 import React, { useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Avatar from '@mui/material/Avatar';
 import MainCard from '../components/MainCard';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
-import Modal from '@mui/material/Modal';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Autocomplete from '@mui/material/Autocomplete';
+import {
+  Autocomplete,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  TablePagination,
+  Button,
+  Chip,
+  Modal,
+  TextField,
+  Grid,
+  Box,
+  Typography,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio
+} from '@mui/material';
+
 // Function to create sample data rows
 function createData(
   name: string,
@@ -41,11 +45,14 @@ function createData(
 const rows = [
   createData('Suzi Lorem', '12/03/2024', '12:30', 'Office', 'Keto Diet'),
   createData('Ivan Tylor', '14/03/2024', '08:00', 'Online', 'Gluten Free Diet'),
-  createData('Arthur Giga', '15/03/2024', '16:15', 'Office', 'Gain Weight'),
+  createData('Arthur Giga', '15/03/2024', '16:15', 'Hospital', 'Gain Weight'),
 ];
 const LocationChips = ({ location }: { location: string }) => {
   // Define chipColor based on the status
-  const chipColor = location === 'Office' ? 'info' : 'error';
+  const chipColor =
+  location === 'Office' ? 'warning' :
+  location === 'Online' ? 'error' :
+  'info';
 
   // Define styles for the chip label and border radius
   const chipStyles = {
@@ -68,7 +75,7 @@ const LocationChips = ({ location }: { location: string }) => {
   );
 };
 
-export default function AccessibleTable() {
+export default function AppointmentsPage() {
   const [open, setOpen] = useState(false);
   const [location, setLocation] = useState<string>('');
 
@@ -106,6 +113,17 @@ export default function AccessibleTable() {
   };
 
   const options = ["Suzi Lorem", "Ivan Tylor", "Arthur Giga"];
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <>
@@ -125,7 +143,10 @@ export default function AccessibleTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+            {(rowsPerPage > 0
+              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : rows
+            ).map((row) => (
                 <TableRow key={row.name}>
                   <TableCell component="th" scope="row">
                     {/* Add avatar to the first column */}
@@ -152,7 +173,15 @@ export default function AccessibleTable() {
             </TableBody>
           </Table>
         </TableContainer>
-  
+        <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </MainCard>
     <Modal
   open={open}
@@ -201,13 +230,14 @@ export default function AccessibleTable() {
           >
             <FormControlLabel value="online" control={<Radio />} label="Online" />
             <FormControlLabel value="office" control={<Radio />} label="Office" />
+            <FormControlLabel value="hospital" control={<Radio />} label="Hospital" />
           </RadioGroup>
         </FormControl>
       </Grid>
       <Grid item xs={12}>
         <Grid container justifyContent="flex-end" spacing={2}>
           <Grid item>
-            <Button variant="contained" color="primary" onClick={handleFormSubmit}>Submit</Button>
+            <Button variant="contained" color="primary" onClick={handleFormSubmit}>Add</Button>
           </Grid>
           <Grid item>
             <Button variant="outlined" onClick={handleCloseModal}>Cancel</Button>

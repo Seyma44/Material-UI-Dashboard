@@ -1,11 +1,11 @@
 import React from 'react';
 import { Grid, Paper, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import Appointments from '../charts/Appointments'
-import TotalRevenue from '../charts/TotalRevenue'
+import AppointmentsChart from '../charts/AppointmentsChart'
+import TotalRevenueChart from '../charts/TotalRevenueChart'
 import Tickets  from '../components/Tickets'
 import StatsComponent from '../components/StatComponent';
-import LastAdded from '../components/LastAdded'
+import TodayAppointments from '../components/TodayAppointments'
 import illustrationImage from '../images/home.svg';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import {
@@ -135,18 +135,17 @@ const HomePage: React.FC = () => {
                 <Typography variant="h3" color="textSecondary">
                   Gelecek Randevularınız
                 </Typography>
-                <TotalRevenue />
-              
+                <TotalRevenueChart />
               </Stack>
             </Box>
           </DashboardCard>
           <DashboardCard sx={{ mt: 2 }} content={false}>
-            <Box sx={{ p: 3, pb: 1}}>
-              <Stack spacing={2}>
+            <Box sx={{ p: 3}}>
+              <Stack spacing={3}>
                 <Typography variant="h3" color="textSecondary">
                   Gelecek Randevularınız
                 </Typography>
-                <LastAdded />
+                <TodayAppointments />
               
               </Stack>
             </Box>
@@ -162,14 +161,14 @@ const HomePage: React.FC = () => {
                 </Typography>
               </Stack>
             </Box>
-            <Appointments  />
-            <Box sx={{ p: 2, pb: 0, textAlign: 'center' }}>
-              <Stack spacing={2}>
+            <AppointmentsChart  />
+            <Box sx={{ p: 2,  textAlign: 'center' }}>
+              <Stack spacing={2}>47
                 <Typography variant="subtitle2" color="text.primary">Randevu gerçekleştirildi.</Typography>
               </Stack>
             </Box>
             <Divider/>
-            <Box sx={{ p: 1, mb:3, textAlign: 'center' }}>
+            <Box sx={{ p: 1, mb:2, mt:2, textAlign: 'center' }}>
               <Stack spacing={2}>
                 <Typography variant="subtitle2" color="text.primary">
                   5 yeni danışan eklendi
@@ -177,9 +176,9 @@ const HomePage: React.FC = () => {
                     disableRipple
                     color="secondary"
                     title="Danışan"
-                    sx={{ color: 'green', bgcolor: 'success.light', width:'55px',fontSize:'12px',marginLeft: '3px',height:28,  borderRadius:1,}}
+                    sx={{ color: 'green', bgcolor: 'success.light', width:'55px',fontSize:'12px',marginLeft: '7px',height:28,  borderRadius:1,}}
                   >
-                  <TrendingUpIcon style={{marginRight:'3px',color:'green', fontSize:'15px'}}/>60%
+                  <TrendingUpIcon style={{marginRight:'3px',color:'green', fontSize:'15px'}}/>25%
                   </IconButton>
                 </Typography>
               </Stack>
@@ -195,6 +194,7 @@ const HomePage: React.FC = () => {
                 <Typography variant="subtitle2" color="text.secondary"> Açık biletlerinizi buradan yanıtlayabilirsiniz</Typography>
               </Stack>
             </Box>
+            <Divider/>
             <Tickets />
           </DashboardCard>
         </Grid> 

@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import MenuItem from '@mui/material/MenuItem';
 import MainCard from '../components/MainCard';
-import Button from '@mui/material/Button';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Avatar } from '@mui/material';
-import Chip from '@mui/material/Chip';
-import { SelectChangeEvent } from '@mui/material/Select';
-import Typography from '@mui/material/Typography';
-
+import { 
+  Chip,
+  Box,
+  Button,
+  MenuItem,
+  Grid,
+  Modal,
+  TextField,
+  Table, 
+  TableBody,
+   TableCell, 
+   TableContainer, 
+   TableHead, 
+   TableRow, 
+   Paper, 
+   Avatar,
+   TablePagination,
+   SelectChangeEvent,
+   Typography 
+} from '@mui/material';
 // Function to create sample data rows
 function createData(
   id: number,
@@ -54,7 +63,7 @@ const LocationChips = ({ status }: { status: string }) => {
   );
 };
 
-export default function AccessibleTable() {
+export default function ConsultantsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -112,6 +121,18 @@ export default function AccessibleTable() {
     handleCloseDeleteModal();
   };
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <>
       <MainCard header="Consultants" buttonLabel="Add New" buttonOnClick={handleOpenModal}>
@@ -129,7 +150,10 @@ export default function AccessibleTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+            {(rowsPerPage > 0
+              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : rows
+            ).map((row) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
                     <Avatar sx={{ borderRadius: '5px' }}>{row.name.charAt(0)}</Avatar>
@@ -155,6 +179,15 @@ export default function AccessibleTable() {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
       </MainCard>
 
       {/* Modal for adding new entry */}
@@ -166,7 +199,7 @@ export default function AccessibleTable() {
   >
   <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80%', 
             maxWidth: 400,  bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 4 }}>
-  <Typography variant="h4" id="modal-modal-title" sx={{ mb: 2 }}>Add New Consultan</Typography>
+  <Typography variant="h4" id="modal-modal-title" sx={{ mb: 2 }}>Add New Consultant</Typography>
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <TextField fullWidth label="Name" name="name" value={formData.name} onChange={handleFormChange} />
@@ -196,7 +229,7 @@ export default function AccessibleTable() {
       <Grid item xs={12}>
         <Grid container justifyContent="flex-end" spacing={2}>
           <Grid item>
-            <Button variant="contained" color="primary" onClick={handleFormSubmit}>Submit</Button>
+            <Button variant="contained" color="primary" onClick={handleFormSubmit}>Add</Button>
           </Grid>
           <Grid item>
             <Button variant="outlined" onClick={handleCloseModal}>Cancel</Button>

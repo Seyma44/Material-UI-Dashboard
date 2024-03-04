@@ -1,11 +1,10 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import AboutPage from '../pages/AboutPage';
 import ProfilPage from '../pages/ProfilPage';
-import ConsumersList from '../pages/ConsumersList';
-import DietList from '../pages/DietList';
-import AppointmentsPage from '../pages/AppointmentsPage';
+import ConsultantsPage from '../pages/ConsultantsPage';
+import DietListPage from '../pages/DietListPage';
+import AppointmentsList from '../pages/AppointmentsPage';
 
 
 const AppRoutes = () => {
@@ -15,9 +14,9 @@ const AppRoutes = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/profile" element={<ProfilPage />} />
-        <Route path="/consumerslist" element={<ConsumersList />} />
-        <Route path="/dietlist" element={<DietList />} />
-        <Route path="/appointments" element={<AppointmentsPage />} />
+        <Route path="/consultantslist" element={<ConsultantsPage />} />
+        <Route path="/dietlist" element={<DietListPage />} />
+        <Route path="/appointments" element={<AppointmentsList />} />
       </Routes>
     </>
   );

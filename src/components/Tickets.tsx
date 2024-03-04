@@ -1,13 +1,5 @@
 import * as React from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
-import Button from '@mui/material/Button';
+import { List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Typography, Button } from '@mui/material';
 
 export default function AlignItemsList() {
   return (
@@ -17,6 +9,7 @@ export default function AlignItemsList() {
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" sx={{  borderRadius:'5px' }} />
         </ListItemAvatar>
         <ListItemText
+          sx={{ marginRight:1 }}
           primary="Brunch this weekend?"
           secondary={
             <React.Fragment>
@@ -44,6 +37,7 @@ export default function AlignItemsList() {
           <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" sx={{  borderRadius:'5px' }} />
         </ListItemAvatar>
         <ListItemText
+        sx={{ marginRight:1 }}
           primary="Summer BBQ"
           secondary={
             <React.Fragment>
@@ -71,6 +65,7 @@ export default function AlignItemsList() {
           <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" sx={{ borderRadius:'5px' }}/>
         </ListItemAvatar>
         <ListItemText
+          sx={{ marginRight:1 }}
           primary="Oui Oui"
           secondary={
             <React.Fragment>
