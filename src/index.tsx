@@ -1,19 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+import ReactDOM from 'react-dom';
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import App from './App'; // Your main App component
+import { Provider } from 'react-redux';
+import store from './reducers/store';
+import { CommonProvider } from './Context/CommonContext';
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// Create the ApolloClient instance
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/', // Your GraphQL server URL
+  cache: new InMemoryCache(),
+});
+
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+    <CommonProvider
+        handleButtonClick={() => {}}
+        handleCloseModal={() => {}}
+        handleCloseDeleteModal={() => {}}
+        handleChangePage={(event, newPage) => {}}
+        handleChangeRowsPerPage={(event) => {}}
+      >
+        <App />
+      </CommonProvider>
+    </Provider>
+  </ApolloProvider>,
+  document.getElementById('root')
+);

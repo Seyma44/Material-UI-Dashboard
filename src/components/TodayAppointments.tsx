@@ -7,16 +7,15 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
-
+import CustomChip from './CustomChip';
 
 function createData(
   name: string,
-  fat: string,
-  carbs: string,
-  protein: string,
+  time: string,
+  location: string,
+  plan: string,
 ) {
-  return { name, fat, carbs, protein };
+  return { name, time, location, plan };
 }
 
 // Sample data rows
@@ -26,32 +25,6 @@ const rows = [
   createData('Arthur Giga', '16:15', 'Hospital', 'Gain Weight'),
   createData('Arthur Giga', '16:15', 'Office', 'Gain Weight'),
 ];
-
-const LocationChips = ({ location }: { location: string }) => {
-  // Define chipColor based on the status
-  const chipColor =
-  location === 'Office' ? 'warning' :
-  location === 'Online' ? 'error' :
-  'info';
-
-  const chipStyles = {
-    label: {
-      color: '#FFFFFF', 
-    },
-    chip: {
-      borderRadius: '4px',
-    },
-  };
-
-  return (
-    <Chip
-      label={location}
-      color={chipColor}
-      style={chipStyles.chip}
-      sx={{ color: chipStyles.label.color }}
-    />
-  );
-};
 
 export default function TodayAppointments() {
   return (
@@ -74,8 +47,8 @@ export default function TodayAppointments() {
                   <Avatar sx={{ borderRadius: '5px' }}>{row.name.charAt(0)}</Avatar>
                 </TableCell>
                 <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="center">{row.fat}</TableCell>
-                <TableCell align="center"> <LocationChips location={row.carbs} /></TableCell>
+                <TableCell align="center">{row.time}</TableCell>
+                <TableCell align="center"> <CustomChip type='location' label={row.location} /></TableCell>
                 <TableCell align="right">
                   <Button variant="contained" color="primary">
                     Details

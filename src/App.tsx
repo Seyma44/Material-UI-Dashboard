@@ -7,7 +7,6 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import ROUTES from './routes/MainRoutes'; 
 import AUTH from './routes/AuthRoutes';
-import AboutPage from './pages/AboutPage';
 import ProfilPage from './pages/ProfilPage';
 import ConsultantsPage from './pages/ConsultantsPage';
 import DietListPage from './pages/DietListPage';
@@ -21,7 +20,6 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<SidebarHeader />}>
             <Route index element={<HomePage />} />
-            <Route path={ROUTES.find(route => route.name === 'About')?.path || '/'} element={<AboutPage />} />
             <Route path={ROUTES.find(route => route.name === 'Consultants')?.path || '/'} element={<ConsultantsPage />} />
             <Route path={ROUTES.find(route => route.name === 'Diet List')?.path || '/'} element={<DietListPage />} />
             <Route path={ROUTES.find(route => route.name === 'Appointments')?.path || '/'} element={<AppointmentsPage />} />

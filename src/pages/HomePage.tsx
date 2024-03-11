@@ -1,85 +1,29 @@
 import React from 'react';
-import { Grid, Paper, Typography } from '@mui/material';
-import Box from '@mui/material/Box';
 import AppointmentsChart from '../charts/AppointmentsChart'
 import TotalRevenueChart from '../charts/TotalRevenueChart'
 import Tickets  from '../components/Tickets'
 import StatsComponent from '../components/StatComponent';
 import TodayAppointments from '../components/TodayAppointments'
+import DashboardCard from '../components/DashboardCard'
 import illustrationImage from '../images/home.svg';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import * as Icons from '../icons';
 import {
- 
+  Grid,
+  Typography,
   Stack,
-Divider,
+  Box,    
+  Divider,
   Card,
   CardMedia,
   CardContent, 
   IconButton
 } from '@mui/material';
-import DashboardCard from '../components/DashboardCard'
+
 const HomePage: React.FC = () => {
  
   return (
     <>
-   {/*  <Typography variant="h6">Dashboard</Typography>
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={5}>
-          <Grid item xs={12} sm={12}  md={8}>
-            <Paper style={{ height: 400, width: '100%', borderRadius:20 }}   sx={{
-        boxShadow: '0px 3px 3px -2px rgba(217, 217, 217, 0.20), 0px 3px 4px 0px rgba(248, 248, 248, 0.14), 0px 1px 8px 0px rgba(96, 96, 96, 0.12)',
-      }}>
-            <Typography variant="h6">Dashboard</Typography>
-            <Typography variant="subtitle1">Week Summary</Typography>
-            <StatsComponent />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <Paper style={{ height: 400, width: '100%',borderRadius:20 }}   sx={{
-        boxShadow: '0px 3px 3px -2px rgba(217, 217, 217, 0.20), 0px 3px 4px 0px rgba(248, 248, 248, 0.14), 0px 1px 8px 0px rgba(96, 96, 96, 0.12)',
-      }}>
-            <Typography variant="h6">Dashboard</Typography>
-            <Appointments  />
-            </Paper>
-          </Grid>
-        </Grid> 
-      </Box>
-      <Box sx={{ flexGrow: 1, marginTop:5 }}>
-        <Grid container spacing={5}>
-        <Grid item xs={12} sm={12} md={6}>
-            <Paper style={{ height: 400, width: '100%',borderRadius:20 }}   sx={{
-        boxShadow: '0px 3px 3px -2px rgba(217, 217, 217, 0.20), 0px 3px 4px 0px rgba(248, 248, 248, 0.14), 0px 1px 8px 0px rgba(96, 96, 96, 0.12)',
-      }}>
-            <Typography variant="h6">Dashboard</Typography>
-              <TotalRevenue />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={12}  md={6}>
-            <Paper style={{ height: 400, width: '100%', borderRadius:20 }}   sx={{
-        boxShadow: '0px 3px 3px -2px rgba(217, 217, 217, 0.20), 0px 3px 4px 0px rgba(248, 248, 248, 0.14), 0px 1px 8px 0px rgba(96, 96, 96, 0.12)',
-      }}>
-            <Typography variant="h6">Dashboard</Typography>
-              <Tickets />
-            </Paper>
-          </Grid>
-         
-        </Grid>
-      </Box>
-      <Box sx={{ flexGrow: 1, marginTop:5 }}>
-        <Grid container spacing={5}>
-          <Grid item xs={12} sm={12}  md={12}>
-            <Paper style={{ height: 400, width: '100%', borderRadius:20 }}   sx={{
-        boxShadow: '0px 3px 3px -2px rgba(217, 217, 217, 0.20), 0px 3px 4px 0px rgba(248, 248, 248, 0.14), 0px 1px 8px 0px rgba(96, 96, 96, 0.12)',
-      }}>
-            <Typography variant="h6">Dashboard</Typography>
-            <LastAdded />
-            </Paper>
-          </Grid>
-        
-        </Grid>
-      </Box> */}
-
-      <Grid container rowSpacing={4.5} columnSpacing={2.75}>
+    <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
         {/* Left Grid */}
         <Grid item xs={12} md={7} lg={8}>
@@ -88,7 +32,7 @@ const HomePage: React.FC = () => {
             <Card sx={{ display: 'flex', boxShadow: 'none', border: 'none', p: 0, margin: -1 }}>
               <CardContent sx={{ flex: '1 0 auto', margin: -1 }}>
                 <Typography variant="h3" color="text.default">
-                  Diyet360 Uzman Paneli
+                  Fitzone Nutritionist Panel
                 </Typography>
                 <Typography
                   variant="subtitle2"
@@ -101,7 +45,7 @@ const HomePage: React.FC = () => {
                     lineHeight: '1.0',
                   }}
                 >
-                  Sonraki randevularınızı ve etkinliğinizi kontrol edin.
+                 Manage your upcoming appointments, clients, and events.
                 </Typography>
               </CardContent>
               <CardMedia
@@ -111,7 +55,7 @@ const HomePage: React.FC = () => {
                   display: { xs: 'none', sm: 'block' }, 
                 }}
                 image={illustrationImage}
-                alt="Live from space album cover"
+                alt="Fitzone cover image"
               />
             </Card>
             </Box>
@@ -120,10 +64,10 @@ const HomePage: React.FC = () => {
           <DashboardCard sx={{ mt: 2 }} content={false}>
             <Box sx={{ p: 3, pb: 1}}>
               <Stack spacing={2}>
-                <Typography variant="h3" color="textSecondary">
-                  Bugünkü Randevularınız
+                <Typography variant="h4" color="textSecondary">
+                  Statistics for April
                 </Typography>
-          
+                <Typography variant="subtitle2" color="text.secondary">Check your feedback and revenue</Typography>
                 <StatsComponent />
               </Stack>
             </Box>
@@ -132,9 +76,10 @@ const HomePage: React.FC = () => {
           <DashboardCard sx={{ mt: 2 }} content={false}>
             <Box sx={{ p: 3, pb: 1}}>
               <Stack spacing={2}>
-                <Typography variant="h3" color="textSecondary">
-                  Gelecek Randevularınız
+                <Typography variant="h4" color="textSecondary">
+                  Weekly Appointments
                 </Typography>
+                <Typography variant="subtitle2" color="text.secondary">Check weekly appointment schedule</Typography>
                 <TotalRevenueChart />
               </Stack>
             </Box>
@@ -142,11 +87,11 @@ const HomePage: React.FC = () => {
           <DashboardCard sx={{ mt: 2 }} content={false}>
             <Box sx={{ p: 3}}>
               <Stack spacing={3}>
-                <Typography variant="h3" color="textSecondary">
-                  Gelecek Randevularınız
+                <Typography variant="h4" color="textSecondary">
+                  Today's Appointments
                 </Typography>
-                <TodayAppointments />
-              
+                <Typography variant="subtitle2" color="text.secondary">Check your appointments for the day</Typography>
+                <TodayAppointments />   
               </Stack>
             </Box>
           </DashboardCard>
@@ -157,28 +102,29 @@ const HomePage: React.FC = () => {
           <Box sx={{ p: 3, pb: 0, textAlign: 'center' }}>
               <Stack spacing={2}>
                 <Typography variant="h4" color="textSecondary">
-                  Haftanın İstatistikleri
+                  Monthly Statistics
                 </Typography>
+                <Typography variant="subtitle2" color="text.secondary">Your monthly workload</Typography>
               </Stack>
             </Box>
             <AppointmentsChart  />
             <Box sx={{ p: 2,  textAlign: 'center' }}>
               <Stack spacing={2}>47
-                <Typography variant="subtitle2" color="text.primary">Randevu gerçekleştirildi.</Typography>
+                <Typography variant="subtitle2" color="text.primary">appointments have been completed</Typography>
               </Stack>
             </Box>
             <Divider/>
             <Box sx={{ p: 1, mb:2, mt:2, textAlign: 'center' }}>
               <Stack spacing={2}>
                 <Typography variant="subtitle2" color="text.primary">
-                  5 yeni danışan eklendi
+                  6 new clients have been added.
                   <IconButton
                     disableRipple
                     color="secondary"
                     title="Danışan"
                     sx={{ color: 'green', bgcolor: 'success.light', width:'55px',fontSize:'12px',marginLeft: '7px',height:28,  borderRadius:1,}}
                   >
-                  <TrendingUpIcon style={{marginRight:'3px',color:'green', fontSize:'15px'}}/>25%
+                  <Icons.TrendingUp style={{marginRight:'3px', color:'green', fontSize:'15px'}}/>25%
                   </IconButton>
                 </Typography>
               </Stack>
@@ -189,9 +135,9 @@ const HomePage: React.FC = () => {
             <Box sx={{ p: 2, pb: 1, textAlign: 'center' }}>
               <Stack spacing={2}>
                 <Typography variant="h4" color="textSecondary">
-                  Açık Biletler
+                  Open Tickets
                 </Typography>
-                <Typography variant="subtitle2" color="text.secondary"> Açık biletlerinizi buradan yanıtlayabilirsiniz</Typography>
+                <Typography variant="subtitle2" color="text.secondary">You can respond to your open tickets here.</Typography>
               </Stack>
             </Box>
             <Divider/>

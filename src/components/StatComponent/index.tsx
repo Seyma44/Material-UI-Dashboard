@@ -17,29 +17,29 @@ const StatsRow = () => {
     >
       <StatBox
         icon={<Icons.EventAvailable />}
-        amount="$1k"
-        label="Total Sales"
-        change="+8%"
+        amount="47"
+        label="Total Meetings"
+        change="-8%"
         bgColor={theme.palette.info.main} 
       />
       <StatBox
         icon={<Icons.People />}
-        amount="$2k"
-        label="New Customers"
-        change="-5%"
-        bgColor={theme.palette.error.main} 
+        amount="6"
+        label="New Clients"
+        change="+25%"
+        bgColor={theme.palette.customPurple || 'defaultFallbackColor'} 
       />
       <StatBox
         icon={<Icons.AttachMoney />}
         amount="$5k"
-        label="Total Revenue"
+        label="Total Profit"
         change="+15%"
         bgColor={theme.palette.warning.main} 
       />
       <StatBox
         icon={<Icons.ArrowUpward />}
         amount="$3k"
-        label="Total Profit"
+        label="Total Revenue"
         change="+20%"
         bgColor={theme.palette.primary.main} 
       />

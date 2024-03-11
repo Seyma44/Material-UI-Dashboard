@@ -19,7 +19,11 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import HomeIcon from '@mui/icons-material/Home';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
+export const LockOutlined = LockOutlinedIcon;
+export const TrendingUp = TrendingUpIcon;
 export const SettingsIcon = Settings;
 export const LogoutIcon = Logout;
 export const Wallet = WalletIcon;

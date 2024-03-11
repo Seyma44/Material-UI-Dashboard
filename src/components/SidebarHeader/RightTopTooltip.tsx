@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Box, Avatar, Menu, MenuItem, ListItemIcon, Divider, IconButton, Typography, Tooltip, Badge } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'; 
-import * as Icons from '../icons';
+import * as Icons from '../../icons';
+import ProfileImage  from '../../images/team-2.png'
 
 export default function RightTopTooltip() {
   const theme = useTheme();
@@ -43,13 +44,13 @@ export default function RightTopTooltip() {
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Wallet">
-          <IconButton size="small" sx={{ ml: 2, display: 'flex', alignItems: 'right',  borderRadius:'10%' }}>
-            <Icons.Wallet sx={{ color: 'purple', mr: 0 }} />
-            <Typography sx={{ color: 'purple', fontSize: '12px' }}>750$</Typography>
+          <IconButton size="small" sx={{ ml: 2, display: 'flex', alignItems: 'right', borderRadius:'10%' }}>
+            <Icons.Wallet sx={{ color: theme.palette.primary.main, mr: 0 }} />
+            <Typography sx={{ color: theme.palette.primary.main, fontSize: '12px' }}>750$</Typography>
           </IconButton>
         </Tooltip>
         <Tooltip title="Notifications">
-          <IconButton onClick={handleClickNofication} size="small" sx={{ ml: 2,borderRadius:'10%'  }}>
+          <IconButton onClick={handleClickNofication} size="small" sx={{ ml: 2, borderRadius:'10%'  }}>
             <Badge badgeContent={3} color="secondary">
               <Icons.Notifications  sx={{ color:'primary.main'}}/>
             </Badge>
@@ -64,7 +65,7 @@ export default function RightTopTooltip() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar src="team-2.png" sx={{ width: 32, height: 32, }} variant="rounded">M</Avatar>
+            <Avatar src={ProfileImage} sx={{ width: 32, height: 32, }} variant="rounded">M</Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -215,15 +216,15 @@ export default function RightTopTooltip() {
         <MenuItem onClick={handleCloseNofication}>
           <ListItemIcon style={{ marginRight: '12px' }}> 
           <Icons.GroupAddTwoTone 
-        fontSize="small" 
-        sx={{ 
-          color: theme.palette.info.main, 
-          border: `1.5px solid ${theme.palette.info.main}`,
-          padding: '8px', 
-          borderRadius: '8%',
-          background:theme.palette.info.light
-        }} 
-      />
+            fontSize="small" 
+            sx={{ 
+              color: theme.palette.info.main, 
+              border: `1.5px solid ${theme.palette.info.main}`,
+              padding: '8px', 
+              borderRadius: '8%',
+              background:theme.palette.info.light
+            }} 
+          />
           </ListItemIcon>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
             <div>

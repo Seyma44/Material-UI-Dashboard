@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '@mui/material/Button';
+import UpradeImage from '../../images/upgrade.svg'
 import { useTheme } from '@mui/material/styles';
 
 const UpgradeSection: React.FC = () => {
@@ -8,7 +9,7 @@ const UpgradeSection: React.FC = () => {
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     width: '100%', 
-    margin: '100px auto 10px',
+    margin: '150px auto 10px',
   };
 
   const buttonStyle: React.CSSProperties = {
@@ -30,7 +31,7 @@ const UpgradeSection: React.FC = () => {
 
   return (
     <div style={containerStyle}>
-        <img src="upgrade.svg" alt="upgrade" style={upgradeImageStyle} />
+      <img src={UpradeImage} alt="upgrade" style={upgradeImageStyle} />
       <Button variant="contained" color="primary" style={buttonStyle}>
         Upgrade
       </Button>

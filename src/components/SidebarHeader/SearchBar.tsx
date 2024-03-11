@@ -1,6 +1,6 @@
 import React from 'react';
 import { InputBase } from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import * as Icons from '../../icons';
 
 const SearchContainer = styled('div')(({ theme }) => ({
@@ -51,7 +51,6 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ isMobile, showSearchBar = true, searchPlaceholder = 'Search...' }) => {
-  const theme = useTheme(); // Access the theme object
 
   return (
     <>

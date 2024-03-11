@@ -1,9 +1,20 @@
-import { createTheme,PaletteOptions } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
-interface CustomPaletteOptions extends PaletteOptions {
-  customColor1?: string;
-  customColor2?: string;
+declare module '@mui/material/styles' {
+  interface Palette {
+    customPurple?: string;
+    customColor2?: {
+      main: string;
+    };
+  }
+  interface PaletteOptions {
+    customPurple?: string;
+    customColor2?: {
+      main: string;
+    };
+  }
 }
+
 const theme = createTheme({
   typography: {
     fontFamily: [
@@ -60,6 +71,7 @@ const theme = createTheme({
       main: '#800080',
     },
     secondary:{
+       light:'#b800d8', 
         main:'#e5cee6'
     },
     info: {
@@ -68,19 +80,35 @@ const theme = createTheme({
     },
     success: {
       light:'#cae0c8',
-      main: '#53af4c', // Green color for success
+      main: '#53af4c', 
     },
     warning: {
       light:'#fae7c5',
-      main: '#ff9800', // Orange color for warning
+      main: '#ff9800', 
     },
     error: {
-      main: '#b800d8', 
+      light:'#eb3b3b',
+      main: '#b31515', 
     },
-    customColor1: '#b800d8', 
-  } as CustomPaletteOptions,
+    customColor2:{
+      main:'#3200d8'    
+    },
+    customPurple: '#b800d8', 
+    common: {
+      black: '#000',
+      white: '#fff',
+    },
   },
-  
+  components: {
+    MuiChip: {
+      styleOverrides: {
+        colorSecondary: {
+          backgroundColor: '#b800d8',
+        },
+      },
+    },
+  },
+  },
 );
 
 export default theme;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Typography, Button } from '@mui/material';
 
-export default function AlignItemsList() {
+export default function Tickets() {
   return (
     <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
       <ListItem alignItems="flex-start">
@@ -10,7 +10,7 @@ export default function AlignItemsList() {
         </ListItemAvatar>
         <ListItemText
           sx={{ marginRight:1 }}
-          primary="Brunch this weekend?"
+          primary="Meeting this weekend?"
           secondary={
             <React.Fragment>
               <Typography
@@ -19,9 +19,9 @@ export default function AlignItemsList() {
                 variant="body2"
                 color="text.primary"
               >
-                Ali Connors
+                Remy Sharp
               </Typography>
-              {" — I'll be in your neighborhood doing errands this…"}
+              {" — I'll be in your office for checking this…"}
             </React.Fragment>
           }
         />
@@ -38,7 +38,7 @@ export default function AlignItemsList() {
         </ListItemAvatar>
         <ListItemText
         sx={{ marginRight:1 }}
-          primary="Summer BBQ"
+          primary="Diet List"
           secondary={
             <React.Fragment>
               <Typography
@@ -47,9 +47,9 @@ export default function AlignItemsList() {
                 variant="body2"
                 color="text.primary"
               >
-                to Scott, Alex, Jennifer
+                Travis Howard"
               </Typography>
-              {" — Wish I could come, but I'm out of town this…"}
+              {" — I have questions about the new diet list…"}
             </React.Fragment>
           }
         />
@@ -66,7 +66,7 @@ export default function AlignItemsList() {
         </ListItemAvatar>
         <ListItemText
           sx={{ marginRight:1 }}
-          primary="Oui Oui"
+          primary="Keto Diet"
           secondary={
             <React.Fragment>
               <Typography
@@ -75,9 +75,9 @@ export default function AlignItemsList() {
                 variant="body2"
                 color="text.primary"
               >
-                Sandra Adams
+                Cindy Baker
               </Typography>
-              {' — Do you have Paris recommendations? Have you ever…'}
+              {' — Do you have Keto recommendations? Have…'}
             </React.Fragment>
           }
         />

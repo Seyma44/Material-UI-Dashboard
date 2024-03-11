@@ -1,141 +1,163 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import MainCard from '../components/MainCard';
-import { 
-  Chip,
+import { useQuery, useMutation, gql } from '@apollo/client';
+import {
   Box,
   Button,
   MenuItem,
   Grid,
   Modal,
   TextField,
-  Table, 
+  Table,
   TableBody,
-   TableCell, 
-   TableContainer, 
-   TableHead, 
-   TableRow, 
-   Paper, 
-   Avatar,
-   TablePagination,
-   SelectChangeEvent,
-   Typography 
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  TablePagination,
+  Typography
 } from '@mui/material';
-// Function to create sample data rows
-function createData(
-  id: number,
-  name: string,
-  age: number,
-  gender: string,
-  plan: string,
-  status: string,
-) {
-  return { id, name, age, gender, plan, status };
-}
+import CustomChip from '../components/CustomChip';
+import { v4 as uuidv4 } from 'uuid';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../reducers/store';
+import { setDeleteModalOpen, setRows } from '../reducers/actions';
+import { useCommonContext } from '../Context/CommonContext';
 
-// Sample data rows
-const rows = [
-  createData(1, 'Suzi Lorem', 32, 'Female', 'Keto Diet', 'Aktive'),
-  createData(2, 'Ivan Tylor', 19, 'Male', 'Gluten Free Diet', 'Passive'),
-  createData(3, 'Arthur Giga', 27, 'Male', 'Gain Weight', 'Aktive'),
-];
+const GET_CONSULTANTS = gql`
+  query GetConsultants {
+    consultants {
+      id
+      name
+      age
+      gender
+      plan
+      status
+    }
+    dietOptions
+  }
+`;
 
-const LocationChips = ({ status }: { status: string }) => {
-  // Define chipColor based on the status
-  const chipColor = status === 'Aktive' ? 'success' : 'warning';
+const ADD_CONSULTANT = gql`
+  mutation AddConsultant($id: ID!,$name: String!, $age: Int!, $gender: String!, $plan: String!, $status: String!) {
+    addConsultant(id: $id,name: $name, age: $age, gender: $gender, plan: $plan, status: $status) {
+      id
+      name
+      age
+      gender
+      plan
+      status
+    }
+  }
+`;
 
-  // Define styles for the chip label and border radius
-  const chipStyles = {
-    label: {
-      color: '#FFFFFF', // Set text color to white for all chip labels
-    },
-    chip: {
-      borderRadius: '4px', // Set the border radius to 20px (adjust as needed)
-    },
-  };
-
-  return (
-    <Chip
-      label={status}
-      color={chipColor}
-      style={chipStyles.chip}
-      sx={{ color: chipStyles.label.color }}
-    />
-  );
-};
+const DELETE_CONSULTANT = gql`
+  mutation DeleteConsultant($id: ID!) {
+    deleteConsultant(id: $id) {
+      id
+      name
+      age
+      gender
+      plan
+      status
+    }
+  }
+`;
 
 export default function ConsultantsPage() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    age: '',
-    gender: '',
-    plan: '',
-    status: '',
-  });
 
-  const handleOpenModal = () => {
-    setModalOpen(true);
-  };
+  const [name, setName] = useState(''); 
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState<string>('');
+  const [plan, setPlan] = useState<string>('');
+  const [status, setStatus] = useState<string>('');
+  const [selectedConsultant, setSelectedConsultant] = useState('');
 
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
-  const handleFormChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | React.ChangeEvent<{ name?: string; value: unknown }> | SelectChangeEvent<string>,
-  ) => {
-    if ('target' in e) {
-      const { name, value } = e.target;
-      setFormData((prevData) => ({
-        ...prevData,
-        [name as string]: value,
-      }));
-    } else {
-      const { name, value } = e;
-      setFormData((prevData) => ({
-        ...prevData,
-        [name as string]: value,
-      }));
+  const { loading, error, data,refetch } = useQuery(GET_CONSULTANTS);
+  const [deleteConsultant] = useMutation(DELETE_CONSULTANT);
+  const [addConsultant] = useMutation(ADD_CONSULTANT);
+
+  const { open, deleteModalOpen, page, rows, rowsPerPage } = useSelector((state: RootState) => state);
+  const dispatch = useDispatch();
+
+  const { handleButtonClick, handleCloseModal, handleCloseDeleteModal, handleChangePage, handleChangeRowsPerPage } = useCommonContext();
+
+ 
+  const handleFormSubmit = async () => {
+    try {
+      await addConsultant({
+        variables: {
+          id: uuidv4(), // Generate a random UUID
+          name,
+          age:parseInt(age),
+          gender,
+          plan,
+          status
+        }
+      });
+      // After adding a new appointment, refetch the data to update the table
+      refetch();
+      // Clear form inputs
+      setName('');
+      setAge('');
+      setGender('');
+      setPlan('');
+      setStatus('');
+    } catch (error) {
+      console.error('Error adding appointment:', error);
     }
+    handleCloseModal();
   };
   
 
-
-
-  const handleFormSubmit = () => {
-    // Handle form submission logic here
-    console.log(formData);
-    handleCloseModal();
+  const handleDeleteButtonClick = (consultantId: any) => {
+    setSelectedConsultant(consultantId);
+    dispatch(setDeleteModalOpen(true));
   };
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-
-  const handleDeleteButtonClick = () => {
-    setDeleteModalOpen(true);
-  };
-
-  const handleCloseDeleteModal = () => {
-    setDeleteModalOpen(false);
-  };
-
-  const handleDeleteConfirm = () => {
-    // Handle delete confirmation logic here
+  
+ 
+  const handleDeleteConfirm = async () => {
+    try {
+      await deleteConsultant({ variables: { id: selectedConsultant } });
+      // After deleting the appointment, refetch the data to update the table
+      refetch();
+    } catch (error) {
+      console.error('Error deleting appointment:', error);
+    }
+    // Close the delete modal after confirming
     handleCloseDeleteModal();
   };
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await refetch(); // Refetch data from the server
+      } catch (error) {
+        console.error('Error refetching data:', error);
+      }
+    };
+    //to fetch dietOptions dynamically
+    fetchData(); // Call the fetchData function when the component mounts 
+  }, [refetch]);
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  useEffect(() => {
+    if (!loading && data) {
+      dispatch(setRows(data.consultants));
+    }
+  }, [loading, data,dispatch]);
+  
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  //before return
+  const dietOptions = data?.dietOptions || []; 
+  const reversedRows = [...rows].reverse();
 
   return (
     <>
-      <MainCard header="Consultants" buttonLabel="Add New" buttonOnClick={handleOpenModal}>
+      <MainCard header="Consultants" buttonLabel="Add New" buttonOnClick={handleButtonClick}>
         <TableContainer component={Paper} sx={{ borderRadius: 5 }} style={{ whiteSpace: 'nowrap',  textOverflow: 'ellipsis' }}>
           <Table>
             <TableHead>
@@ -151,18 +173,18 @@ export default function ConsultantsPage() {
             </TableHead>
             <TableBody>
             {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((row) => (
-                <TableRow key={row.id}>
+              ? reversedRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : reversedRows
+            ).map((consultant: any) => (
+                <TableRow key={consultant.id}>
                   <TableCell component="th" scope="row">
-                    <Avatar sx={{ borderRadius: '5px' }}>{row.name.charAt(0)}</Avatar>
+                    <Avatar sx={{ borderRadius: '5px' }}>{consultant.name.charAt(0)}</Avatar>
                   </TableCell>
-                  <TableCell align="left">{row.name}</TableCell>
-                  <TableCell align="center">{row.age}</TableCell>
-                  <TableCell align="center">{row.gender}</TableCell>
-                  <TableCell align="center">{row.plan}</TableCell>
-                  <TableCell align="center"> <LocationChips status={row.status} /></TableCell>
+                  <TableCell align="left">{consultant.name}</TableCell>
+                  <TableCell align="center">{consultant.age}</TableCell>
+                  <TableCell align="center">{consultant.gender}</TableCell>
+                  <TableCell align="center">{consultant.plan}</TableCell> 
+                  <TableCell align="center"> <CustomChip type="status" label={consultant.status} /></TableCell>
                   <TableCell align="right">
                     <Button variant="contained" color="primary" style={{ marginRight: 8 }}>
                       Details
@@ -170,7 +192,7 @@ export default function ConsultantsPage() {
                     <Button variant="outlined" color="primary" style={{ marginRight: 8 }}>
                       Edit
                     </Button>
-                    <Button variant="outlined" color="secondary" onClick={handleDeleteButtonClick}>
+                    <Button variant="outlined" color="secondary"onClick={() => handleDeleteButtonClick(consultant.id)}>
                       Delete
                     </Button>
                   </TableCell>
@@ -180,67 +202,76 @@ export default function ConsultantsPage() {
           </Table>
         </TableContainer>
         <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </MainCard>
 
       {/* Modal for adding new entry */}
       <Modal
-        open={modalOpen}
+        open={open}
         onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-  >
-  <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80%', 
+      >
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80%', 
             maxWidth: 400,  bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 4 }}>
-  <Typography variant="h4" id="modal-modal-title" sx={{ mb: 2 }}>Add New Consultant</Typography>
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <TextField fullWidth label="Name" name="name" value={formData.name} onChange={handleFormChange} />
-      </Grid>
-      <Grid item xs={12}>
-        <TextField fullWidth label="Age" name="age" value={formData.age} onChange={handleFormChange} />
-      </Grid>
-      <Grid item xs={12}>
-          <TextField fullWidth label="Gender" select name="gender" value={formData.gender} onChange={handleFormChange}>
-            <MenuItem value="Male">Male</MenuItem>
-            <MenuItem value="Female">Female</MenuItem>
-          </TextField>
-      </Grid>
-      <Grid item xs={12}>
-        <TextField fullWidth label="Plan" select name="plan" value={formData.plan} onChange={handleFormChange}>
-            <MenuItem value="Keto Diet">Keto Diet</MenuItem>
-            <MenuItem value="Gluten Free Diet">Gluten Free Diet</MenuItem>
-            <MenuItem value="Gain Weight">Gain Weight</MenuItem>
-          </TextField>
-      </Grid>
-      <Grid item xs={12}>
-        <TextField fullWidth label="Status" select name="status" value={formData.status} onChange={handleFormChange}>
-            <MenuItem value="Aktive">Active</MenuItem>
-            <MenuItem value="Passive">Passive</MenuItem>
-        </TextField>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container justifyContent="flex-end" spacing={2}>
-          <Grid item>
-            <Button variant="contained" color="primary" onClick={handleFormSubmit}>Add</Button>
+          <Typography variant="h4" id="modal-modal-title" sx={{ mb: 2 }}>Add New Consultant</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField fullWidth label="Name" name="name" value={name}  onChange={(e) => setName(e.target.value)}  />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField fullWidth label="Age" name="age" value={age} type="number" onChange={(e) => setAge(e.target.value)} />
+            </Grid>
+            <Grid item xs={12}>
+                <TextField fullWidth label="Gender" select name="gender" value={gender} onChange={(e) => setGender(e.target.value)} >
+                  <MenuItem value="Male">Male</MenuItem>
+                  <MenuItem value="Female">Female</MenuItem>
+                </TextField>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Plan"
+                select
+                name="plan"
+                value={plan}
+                onChange={(e) => setPlan(e.target.value)}
+              >
+                {dietOptions.map((option: string) => ( // Map through dietOptions
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField fullWidth label="Status" select name="status" value={status} onChange={(e) => setStatus(e.target.value)}>
+                  <MenuItem value="Aktive">Active</MenuItem>
+                  <MenuItem value="Passive">Passive</MenuItem>
+              </TextField>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container justifyContent="flex-end" spacing={2}>
+                <Grid item>
+                  <Button variant="contained" color="primary" onClick={handleFormSubmit}>Add</Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="outlined" onClick={handleCloseModal}>Cancel</Button>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Button variant="outlined" onClick={handleCloseModal}>Cancel</Button>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
-  </Box>
-</Modal>
-   {/* Modal for delete */}
-   <Modal
+        </Box>
+      </Modal>
+      {/* Modal for delete */}
+      <Modal
         open={deleteModalOpen}
         onClose={handleCloseDeleteModal}
         aria-labelledby="delete-modal-title"
@@ -251,11 +282,11 @@ export default function ConsultantsPage() {
         <Typography variant="h4" id="delete-modal-title" sx={{ mb: 2 }}>Delete Confirmation</Typography>
           <Typography variant="body1" id="delete-modal-description" sx={{ mb: 4 }}>Are you sure you want to delete this item?</Typography>
           <Grid container justifyContent="flex-end" spacing={2}>
+            <Grid item>
+              <Button variant="contained" color="primary" onClick={handleDeleteConfirm}>Confirm</Button>
+            </Grid>
           <Grid item>
-          <Button variant="contained" color="primary" onClick={handleDeleteConfirm}>Confirm</Button>
-          </Grid>
-          <Grid item>
-          <Button variant="outlined" onClick={handleCloseDeleteModal}>Cancel</Button>
+            <Button variant="outlined" onClick={handleCloseDeleteModal}>Cancel</Button>
           </Grid>
         </Grid>
         </Box>

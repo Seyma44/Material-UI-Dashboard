@@ -9,12 +9,13 @@ import { GridMenuIcon } from '@mui/x-data-grid';
 
 import ROUTES from '../../routes/MainRoutes';
 import AppRoutes from '../../routes/AppRoutes';
-import RightTopTooltip from '../RightTopTooltip';
+import RightTopTooltip from './RightTopTooltip';
 import SearchBar from './SearchBar';
 import StyledListItem from './StyledListItem';
 import UpgradeSection from './UpgradeSection';
 import HeaderContainer from './HeaderContainer';
 import DrawerHeader from './DrawerHeader';
+import LogoMain from '../../images/logo-main.png';
 
 
 const drawerWidth = 240;
@@ -64,9 +65,18 @@ interface AppBarProps extends MuiAppBarProps {
   scrolled: boolean;
 }
 
-
-
 export default function Sidebar() {
+  const theme = useTheme();
+  const location = useLocation();
+  const navigate = useNavigate(); 
+
+  const [scrolled, setScrolled] = useState(false);
+  const [selectedRoute, setSelectedRoute] = useState(location.pathname); // Initialize selectedRoute state variable
+  const [open, setOpen] = React.useState(true); // Drawer is open by default
+  
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('md')); // Adjust breakpoint as needed
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+ 
 
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
@@ -87,44 +97,15 @@ export default function Sidebar() {
     backgroundColor: scrolled ? '#fff' : 'transparent',
     boxShadow: scrolled ? '0px 4px 6px rgba(0, 0, 0, 0.1)' : 'none',
   }));
-  
-  
-  const [scrolled, setScrolled] = useState(false);
 
-useEffect(() => {
-  const handleScroll = () => {
-    const isScrolled = window.scrollY > 0;
-    setScrolled(isScrolled);
-  };
-
-  window.addEventListener('scroll', handleScroll);
-
-  return () => {
-    window.removeEventListener('scroll', handleScroll);
-  };
-}, []);
-const location = useLocation();
-const [selectedRoute, setSelectedRoute] = useState(location.pathname); // Initialize selectedRoute state variable
-
-
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(true); // Drawer is open by default
-  const isLargeScreen = useMediaQuery(theme.breakpoints.up('md')); // Adjust breakpoint as needed
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const navigate = useNavigate(); 
-
- 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
-  useEffect(() => {
-    setOpen(isLargeScreen); // Set drawer state based on screen size
-  }, [isLargeScreen]); // Re-run effect when screen size changes
-
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
   const handleNavigation = (route: any) => {
     navigate(route); // Navigate to the specified route
     if (!isLargeScreen) {
@@ -133,6 +114,25 @@ const [selectedRoute, setSelectedRoute] = useState(location.pathname); // Initia
     }
     setSelectedRoute(route); 
   };  
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 0;
+      setScrolled(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+
+  useEffect(() => {
+    setOpen(isLargeScreen); // Set drawer state based on screen size
+  }, [isLargeScreen]); // Re-run effect when screen size changes
+
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -144,7 +144,7 @@ const [selectedRoute, setSelectedRoute] = useState(location.pathname); // Initia
                 aria-label="open drawer"
                 onClick={handleDrawerOpen}
                 edge="start"
-                sx={{ mr: 2, backgroundColor: 'purple', borderRadius: '5px', padding: '0.3rem 0.7rem', display: 'flex', alignItems: 'center' }}
+                sx={{ mr: 2, backgroundColor: theme.palette.primary.main, borderRadius: '5px', padding: '0.3rem 0.7rem', display: 'flex', alignItems: 'center' }}
               >
                 <GridMenuIcon />
               </IconButton>
@@ -181,29 +181,27 @@ const [selectedRoute, setSelectedRoute] = useState(location.pathname); // Initia
         >
           <DrawerHeader onDrawerClose={handleDrawerClose} />
 
+          <img src={LogoMain} alt="Logo" style={{ width: '85%', padding: '8px', margin: '0 auto 40px', borderRadius: '15px' }} />
 
-          <img src="logo-main.png" alt="Logo" style={{ width: '85%', padding: '8px', margin: '0 auto 40px', borderRadius: '15px' }} />
           <List>
-  {ROUTES.map((route: any) => (
-  <StyledListItem
-  selected={selectedRoute === route.path}
-  onClick={() => handleNavigation(route.path)}
-  primary={route.name}
-  icon={<route.icon />}
-/>
-  ))}
-</List>
+            {ROUTES.map((route: any) => (
+              <StyledListItem
+                selected={selectedRoute === route.path}
+                onClick={() => handleNavigation(route.path)}
+                primary={route.name}
+                icon={<route.icon />}
+              />
+            ))}
+          </List>
+          <UpgradeSection/>
 
-        <UpgradeSection/>
         </Drawer>
         <Main open={open}>
-        <SidebarHeader/>
-
+          <SidebarHeader/>
           <AppRoutes />
         </Main>
       </Box>
     </>
-
   );
 }
 

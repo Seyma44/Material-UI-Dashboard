@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
-import AboutPage from '../pages/AboutPage';
 import ProfilPage from '../pages/ProfilPage';
 import ConsultantsPage from '../pages/ConsultantsPage';
 import DietListPage from '../pages/DietListPage';
@@ -12,7 +11,6 @@ const AppRoutes = () => {
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
         <Route path="/profile" element={<ProfilPage />} />
         <Route path="/consultantslist" element={<ConsultantsPage />} />
         <Route path="/dietlist" element={<DietListPage />} />

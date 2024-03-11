@@ -10,7 +10,7 @@ export default function TotalRevenueChart() {
     {
       name: 'Online',
       data: [24, 22, 7, 18, 14, 13, 18],
-      color: theme.palette.error.main,
+      color: theme.palette.customPurple,
     },
     {
       name: 'Hospital',
