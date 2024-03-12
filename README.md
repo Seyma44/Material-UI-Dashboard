@@ -1,6 +1,9 @@
 # Material UI GraphQL App
 
 This is a web application built using Material UI and GraphQL, Redux, ContextAPI technologies, designed to provide a modern and responsive user interface for interacting with GraphQL APIs.
+![2024-03-12_05-30-22_V2](https://github.com/Seyma44/Material-UI-Dashboard/assets/3766249/3af9123c-407d-4594-9843-318b2d7af043)
+
+https://github.com/Seyma44/Material-UI-Dashboard/assets/3766249/68860cf0-96de-46fd-8f17-553720963d3d
 
 ## Features:
 
